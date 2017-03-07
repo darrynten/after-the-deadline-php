@@ -1,0 +1,22 @@
+{
+  "name": "darrynten/after-the-deadline-php",
+  "description": "PHP After The Deadline Client.",
+  "type": "library",
+  "require": {
+    "php": "^7.0",
+    "darrynten/any-cache": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~5.0",
+    "mockery/mockery": "dev-master"
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "autoload": {
+    "psr-4": {
+      "DarrynTen\\AfterTheDeadlinePhp\\": "src/"
+    },
+    "exclude-from-classmap": ["/Tests/"]
+  }
+}
