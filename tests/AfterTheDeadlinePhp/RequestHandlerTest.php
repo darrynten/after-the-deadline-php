@@ -47,7 +47,7 @@ class RequestHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testRequest()
     {
-        $data = '{\'key\':\'data\'}';
+        $data = '<results></results>';
 
         $this->http->mock
             ->when()
@@ -59,8 +59,8 @@ class RequestHandlerTest extends \PHPUnit_Framework_TestCase
         $this->http->setUp();
 
         $config = [
-            'key' => 'xx',
-            'text' => 'xx',
+            'key' => 'xxxxxxx',
+            'text' => 'xxxxxx',
             'cache' => true,
         ];
 
@@ -103,6 +103,8 @@ class RequestHandlerTest extends \PHPUnit_Framework_TestCase
         $reflectedClient->setAccessible(true);
         $reflectedClient->setValue($request, $mockClient);
 
-        $request->request($configObject, 'stats');
+        $request->request($configObject, 'stats', 'POST');
+        $request->request($configObject, 'checkDocument', 'POST');
+        $request->request($configObject, 'checkGrammar', 'POST');
     }
 }

@@ -70,6 +70,10 @@ class RequestHandler
             $options
         );
 
-        return json_decode($response->getBody());
+        $xml = simplexml_load_string($response->getBody());
+
+        $json = json_encode($xml);
+
+        return json_decode($json, true);
     }
 }

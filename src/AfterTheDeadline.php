@@ -47,6 +47,7 @@ class AfterTheDeadline
     {
         $this->config = new Config($config);
         $this->cache = new AnyCache();
+        $this->request = new RequestHandler();
     }
 
     /**
@@ -54,6 +55,14 @@ class AfterTheDeadline
      */
     public function checkDocument()
     {
+        $cacheKey = '_atd_check_document_' . md5($this->config->text);
+
+        if (!$this->config->cache || !$result = unserialize($this->cache->get($cacheKey))) {
+            $result = $this->request->request($this->config, 'checkDocument');
+            $this->cache->put($cacheKey, serialize($result), 9999999);
+        }
+
+        return $result;
     }
 
     /**
@@ -61,6 +70,14 @@ class AfterTheDeadline
      */
     public function checkGrammar()
     {
+        $cacheKey = '_atd_check_grammar_' . md5($this->config->text);
+
+        if (!$this->config->cache || !$result = unserialize($this->cache->get($cacheKey))) {
+            $result = $this->request->request($this->config, 'checkGrammar');
+            $this->cache->put($cacheKey, serialize($result), 9999999);
+        }
+
+        return $result;
     }
 
     /**
@@ -68,6 +85,15 @@ class AfterTheDeadline
      */
     public function stats()
     {
+        $cacheKey = '_atd_stats_' . md5($this->config->text);
+
+        if (!$this->config->cache || !$result = unserialize($this->cache->get($cacheKey))) {
+            // TODO tags
+            $result = $this->request->request($this->config, 'stats');
+            $this->cache->put($cacheKey, serialize($result), 9999999);
+        }
+
+        return $result;
     }
 
     /**
@@ -76,15 +102,7 @@ class AfterTheDeadline
      */
     public function getInfo(string $term)
     {
-        $cacheKey = '_atd_get_info_' . md5($term);
-
-        if (!$this->config->cache || !$result = unserialize($this->cache->get($cacheKey))) {
-            // TODO
-            $result = '';
-            $this->cache->put($cacheKey, serialize($result), 9999999);
-        }
-
-        return $result;
+        // TODO
     }
 
     /**

@@ -87,8 +87,8 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
     public function testCheckDocument()
     {
         $config = [
-            'key' => 'xxx',
-            'text' => 'xxx',
+            'key' => 'unit-test',
+            'text' => 'hello i want to use right grammar and speling but i sometimes mistype and enflish isnt my first langusge',
             'cache' => false,
         ];
 
@@ -99,9 +99,12 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
 
     public function testCheckGrammar()
     {
+        // api and ip rate limits
+        // temp until mocked
+        sleep(1);
         $config = [
-            'key' => 'xxx',
-            'text' => 'xxx',
+            'key' => time(),
+            'text' => 'hello i want to use right grammar and speling but i sometimes mistype and enflish isnt my first langusge',
             'cache' => false,
         ];
 
@@ -112,9 +115,11 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
 
     public function testStats()
     {
+        // api and ip rate limits
+        sleep(1);
         $config = [
-            'key' => 'xxx',
-            'text' => 'xxx',
+            'key' => time(),
+            'text' => 'hello i want to use right grammar and speling but i sometimes mistype and enflish isnt my first langusge',
             'cache' => false,
         ];
 
@@ -125,9 +130,11 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
 
     public function testGetInfo()
     {
+        // api and ip rate limits
+        sleep(1);
         $config = [
-            'key' => 'xxx',
-            'text' => 'xxx',
+            'key' => time(),
+            'text' => 'hello i want to use right grammar and speling but i sometimes mistype and enflish isnt my first langusge',
             'cache' => false,
         ];
 
