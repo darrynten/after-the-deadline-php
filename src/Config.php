@@ -20,18 +20,21 @@ class Config
      *
      * @var string $key
      */
-    private $key = null;
-
-    public $text;
+    public $key = null;
 
     /**
-     * The format of text.
+     * The AtD service URL
      *
-     * Options are `text` and `html`
-     *
-     * @var string $format
+     * @var string $url
      */
-    public $format = 'text';
+    public $url = '//service.afterthedeadline.com';
+
+    /**
+     * The text to process
+     *
+     * @var string $text
+     */
+    public $text;
 
     /**
      * Whether or not to use caching.
@@ -59,13 +62,6 @@ class Config
         // optionals
         if (isset($config['text'])) {
             $this->text = $config['text'];
-        }
-
-        if (isset($config['format'])) {
-            Validation::isValidFormat($config['format']);
-            $this->format = $config['format'];
-        } else {
-            $this->format = 'text';
         }
 
         if (isset($config['cache'])) {

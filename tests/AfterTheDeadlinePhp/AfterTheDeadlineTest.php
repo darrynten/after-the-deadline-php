@@ -75,10 +75,6 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
 
         $instance = new AfterTheDeadline($config);
 
-        $this->assertEquals('text', $instance->config->format);
-        $instance->setFormat('html');
-        $this->assertEquals('html', $instance->config->format);
-
         $this->assertEquals('', $instance->config->text);
         $instance->setText('hello');
         $this->assertEquals('hello', $instance->config->text);
@@ -93,7 +89,6 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
         $config = [
             'key' => 'xxx',
             'text' => 'xxx',
-            'format' => 'text',
             'cache' => false,
         ];
 
@@ -107,7 +102,6 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
         $config = [
             'key' => 'xxx',
             'text' => 'xxx',
-            'format' => 'text',
             'cache' => false,
         ];
 
@@ -121,7 +115,6 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
         $config = [
             'key' => 'xxx',
             'text' => 'xxx',
-            'format' => 'text',
             'cache' => false,
         ];
 
@@ -135,7 +128,6 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
         $config = [
             'key' => 'xxx',
             'text' => 'xxx',
-            'format' => 'text',
             'cache' => false,
         ];
 

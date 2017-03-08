@@ -88,20 +88,6 @@ class AfterTheDeadline
     }
 
     /**
-     * Sets the document format
-     *
-     * @param string $format Either `html` or `text`
-     *
-     * @return void
-     */
-    public function setFormat(string $format)
-    {
-        Validation::isValidFormat($format);
-
-        $this->config->format = $format;
-    }
-
-    /**
      * Sets the text
      *
      * @param string $text
