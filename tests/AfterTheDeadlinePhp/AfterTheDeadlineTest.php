@@ -36,7 +36,6 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
 
     public function getMockClient($config)
     {
-
         $instance = new AfterTheDeadline($config);
         $this->assertInstanceOf(AfterTheDeadline::class, $instance);
 
