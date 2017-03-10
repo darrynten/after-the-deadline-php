@@ -3,47 +3,49 @@
 namespace DarrynTen\AfterTheDeadlinePhp\Tests\AfterTheDeadlinePhp;
 
 use PHPUnit_Framework_TestCase;
-use Mockery as m;
-use ReflectionClass;
+// use Mockery as m;
+// use ReflectionClass;
+use InterNations\Component\HttpMock\PHPUnit\HttpMockTrait;
 
 use DarrynTen\AfterTheDeadlinePhp\Config;
 use DarrynTen\AfterTheDeadlinePhp\AfterTheDeadline;
 
 class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
 {
-    public function tearDown()
+    use HttpMockTrait;
+
+    public static function setUpBeforeClass()
     {
-        m::close();
+        static::setUpHttpMockBeforeClass('8082', 'localhost');
     }
 
-    public function getMockClient()
+    public static function tearDownAfterClass()
     {
-        $config = [
-            'key' => 'xxx',
-        ];
+        static::tearDownHttpMockAfterClass();
+    }
 
-        $config = new Config($config);
+    public function setUp()
+    {
+        $this->setUpHttpMock();
+    }
 
-        $mock = m::mock(TranslateClient::class);
+    public function tearDown()
+    {
+        $this->tearDownHttpMock();
+    }
 
-        $mock->shouldReceive('__construct')
-          ->with($config)
-          ->zeroOrMoreTimes()
-          ->andReturn();
+    public function getMockClient($config)
+    {
 
-        $mock->shouldReceive('languages')
-          ->zeroOrMoreTimes()
-          ->andReturn(json_decode(file_get_contents(__DIR__ . '/mocks/languages_response.json')));
+        $instance = new AfterTheDeadline($config);
+        $this->assertInstanceOf(AfterTheDeadline::class, $instance);
 
-        $mock->shouldReceive('localizedLanguages')
-          ->zeroOrMoreTimes()
-          ->andReturn(json_decode(file_get_contents(__DIR__ . '/mocks/source_languages_for_en.json'), true));
+        $configObject = new Config($config);
+        $configObject->url = 'http://localhost:8082';
 
-        $mock->shouldReceive('localizedLanguages')
-          ->zeroOrMoreTimes()
-          ->andReturn(json_decode(file_get_contents(__DIR__ . '/mocks/source_languages_for_en.json'), true));
+        $instance->config = $configObject;
 
-        return $mock;
+        return $instance;
     }
 
     public function testMissingKey()
@@ -53,6 +55,7 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
         $config = [];
 
         $instance = new AfterTheDeadline($config);
+
         $this->assertInstanceOf(AfterTheDeadline::class, $instance);
     }
 
@@ -63,7 +66,9 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
             'key' => 'xxx',
         ];
 
-        $instance = new AfterTheDeadline($config);
+        // $instance = $this->injectMock(new AfterTheDeadline($config));
+        $instance = $this->getMockClient($config);
+
         $this->assertInstanceOf(AfterTheDeadline::class, $instance);
     }
 
@@ -73,7 +78,7 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
             'key' => 'xxx',
         ];
 
-        $instance = new AfterTheDeadline($config);
+        $instance = $this->getMockClient($config);
 
         $this->assertEquals('', $instance->config->text);
         $instance->setText('hello');
@@ -86,59 +91,92 @@ class AfterTheDeadlineTest extends PHPUnit_Framework_TestCase
 
     public function testCheckDocument()
     {
+        $this->http->mock
+            ->when()
+                ->methodIs('POST')
+                ->pathIs('/checkDocument')
+            ->then()
+                ->body('')
+            ->end();
+
+        $this->http->setUp();
+
         $config = [
             'key' => 'unit-test',
             'text' => 'hello i want to use right grammar and speling but i sometimes mistype and enflish isnt my first langusge',
             'cache' => false,
         ];
 
-        $instance = new AfterTheDeadline($config);
+        $instance = $this->getMockClient($config);
 
         $results = $instance->checkDocument();
     }
 
     public function testCheckGrammar()
     {
-        // api and ip rate limits
-        // temp until mocked
-        sleep(1);
+        $this->http->mock
+            ->when()
+                ->methodIs('POST')
+                ->pathIs('/checkGrammar')
+            ->then()
+                ->body('')
+            ->end();
+
+        $this->http->setUp();
+
         $config = [
             'key' => time(),
             'text' => 'hello i want to use right grammar and speling but i sometimes mistype and enflish isnt my first langusge',
             'cache' => false,
         ];
 
-        $instance = new AfterTheDeadline($config);
+        $instance = $this->getMockClient($config);
 
         $results = $instance->checkGrammar();
     }
 
     public function testStats()
     {
-        // api and ip rate limits
-        sleep(1);
+        $this->http->mock
+            ->when()
+                ->methodIs('POST')
+                ->pathIs('/stats')
+            ->then()
+                ->body('')
+            ->end();
+
+        $this->http->setUp();
+
         $config = [
             'key' => time(),
             'text' => 'hello i want to use right grammar and speling but i sometimes mistype and enflish isnt my first langusge',
             'cache' => false,
         ];
 
-        $instance = new AfterTheDeadline($config);
+        $instance = $this->getMockClient($config);
 
         $results = $instance->stats();
     }
 
     public function testGetInfo()
     {
-        // api and ip rate limits
-        sleep(1);
+        $this->http->mock
+            ->when()
+                ->methodIs('POST')
+                ->pathIs('/getInfo')
+            ->then()
+                ->body('')
+            ->end();
+
+        $this->http->setUp();
+
         $config = [
             'key' => time(),
             'text' => 'hello i want to use right grammar and speling but i sometimes mistype and enflish isnt my first langusge',
             'cache' => false,
         ];
 
-        $instance = new AfterTheDeadline($config);
+        $instance = $this->getMockClient($config);
 
         $results = $instance->getInfo('to be');
     }
