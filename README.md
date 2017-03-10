@@ -64,11 +64,16 @@ $checker->checkGrammar();  // only does grammar
 $checker->stats();
 
 // Get an explanation on the grammar of an incorrect type
+// Not yet implemented
 $checker->getInfo($term);  // e.g. 'to be' should be re-written in active
 ```
 
 See [The AtD API Docs](http://www.afterthedeadline.com/api.slp)
 for more on these options and their usage.
+
+## Outstanding
+
+* Get Info
 
 ## Acknowledgements
 
